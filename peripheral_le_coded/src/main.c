@@ -53,6 +53,8 @@ static void connected(struct bt_conn *conn, uint8_t conn_err)
 	int err;
 	struct bt_conn_info info;
 	char addr[BT_ADDR_LE_STR_LEN];
+	struct bt_conn_le_phy_param phy_param;
+	
 
 	bt_addr_le_to_str(bt_conn_get_dst(conn), addr, sizeof(addr));
 
@@ -60,7 +62,10 @@ static void connected(struct bt_conn *conn, uint8_t conn_err)
 		printk("Connection failed (err %d)\n", conn_err);
 		return;
 	}
-
+	phy_param.options = BT_CONN_LE_PHY_OPT_CODED_S8;
+	phy_param.pref_rx_phy = BT_GAP_LE_PHY_CODED;
+	phy_param.pref_tx_phy = BT_GAP_LE_PHY_CODED;
+	bt_conn_le_phy_update(conn,&phy_param);
 	err = bt_conn_get_info(conn, &info);
 	if (err) {
 		printk("Failed to get connection info (err %d)\n", err);
