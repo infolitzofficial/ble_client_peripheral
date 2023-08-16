@@ -23,6 +23,10 @@
 #include <bluetooth/scan.h>
 #include <bluetooth/services/hrs_client.h>
 
+#include <dk_buttons_and_leds.h>
+
+#define CON_STATUS_LED          DK_LED2
+
 static struct bt_conn *default_conn;
 
 static struct bt_hrs_client hrs_c;
@@ -186,6 +190,7 @@ static void connected(struct bt_conn *conn, uint8_t conn_err)
 	struct bt_conn_info info;
 	char addr[BT_ADDR_LE_STR_LEN];
 	struct bt_conn_le_phy_param phy_param;
+
 	bt_addr_le_to_str(bt_conn_get_dst(conn), addr, sizeof(addr));
 
 	if (conn_err) {
@@ -225,6 +230,7 @@ static void connected(struct bt_conn *conn, uint8_t conn_err)
 			printk("Failed to start discovery (err %d)\n", err);
 		}
 	}
+	dk_set_led_on(CON_STATUS_LED);
 }
 
 static void disconnected(struct bt_conn *conn, uint8_t reason)
@@ -247,6 +253,7 @@ static void disconnected(struct bt_conn *conn, uint8_t reason)
 	if (err) {
 		printk("Scanning failed to start (err %d)\n", err);
 	}
+	dk_set_led_off(CON_STATUS_LED);
 }
 
 BT_CONN_CB_DEFINE(conn_callbacks) = {
@@ -260,6 +267,12 @@ int main(void)
 
 	printk("Starting Bluetooth Central HR coded example\n");
 
+	err = dk_leds_init();
+	if (err) {
+		printk("LEDs init failed (err %d)\n", err);
+		return 0;
+	}
+	
 	err = bt_enable(NULL);
 	if (err) {
 		printk("Bluetooth init failed (err %d)\n", err);
