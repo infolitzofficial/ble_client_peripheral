@@ -41,9 +41,7 @@ static struct bt_le_ext_adv *adv;
 
 static const struct bt_data ad[] = {
 	BT_DATA_BYTES(BT_DATA_FLAGS, (BT_LE_AD_GENERAL | BT_LE_AD_NO_BREDR)),
-	BT_DATA_BYTES(BT_DATA_UUID16_ALL, BT_UUID_16_ENCODE(BT_UUID_HRS_VAL),
-					  BT_UUID_16_ENCODE(BT_UUID_BAS_VAL),
-					  BT_UUID_16_ENCODE(BT_UUID_DIS_VAL)),
+	BT_DATA_BYTES(BT_DATA_UUID16_ALL, BT_UUID_16_ENCODE(BT_UUID_HRS_VAL)),
 	BT_DATA(BT_DATA_NAME_COMPLETE, DEVICE_NAME, DEVICE_NAME_LEN)
 };
 
@@ -55,6 +53,7 @@ static void connected(struct bt_conn *conn, uint8_t conn_err)
 	char addr[BT_ADDR_LE_STR_LEN];
 	struct bt_conn_le_phy_param phy_param;
 	
+    struct bt_conn_le_tx_power tx_power_level = {0};
 
 	bt_addr_le_to_str(bt_conn_get_dst(conn), addr, sizeof(addr));
 
@@ -66,6 +65,7 @@ static void connected(struct bt_conn *conn, uint8_t conn_err)
 	phy_param.pref_rx_phy = BT_GAP_LE_PHY_CODED;
 	phy_param.pref_tx_phy = BT_GAP_LE_PHY_CODED;
 	bt_conn_le_phy_update(conn,&phy_param);
+
 	err = bt_conn_get_info(conn, &info);
 	if (err) {
 		printk("Failed to get connection info (err %d)\n", err);
@@ -75,6 +75,15 @@ static void connected(struct bt_conn *conn, uint8_t conn_err)
 
 		printk("Connected: %s, tx_phy %u, rx_phy %u\n",
 		       addr, phy_info->tx_phy, phy_info->rx_phy);
+
+        err = bt_conn_le_get_tx_power_level(conn, &tx_power_level);
+	    if (err) {
+		    printk("Failed to read Tx Power Level over HCI: %d", err);
+		    return;
+	    }
+
+	    printk("Peripheral Tx Power Level read %d", tx_power_level.current_level);
+		printk("Peripheral Max Power Level read %d", tx_power_level.max_level);
 	}
 
 	dk_set_led_on(CON_STATUS_LED);
@@ -98,7 +107,7 @@ static int create_advertising_coded(void)
 {
 	int err;
 	struct bt_le_adv_param param =
-		BT_LE_ADV_PARAM_INIT(BT_LE_ADV_OPT_CONNECTABLE |
+		BT_LE_ADV_PARAM_INIT(BT_LE_ADV_OPT_CONNECTABLE | BT_LE_ADV_OPT_USE_NAME |
 				     BT_LE_ADV_OPT_EXT_ADV |
 				     BT_LE_ADV_OPT_CODED,
 				     BT_GAP_ADV_FAST_INT_MIN_2,
