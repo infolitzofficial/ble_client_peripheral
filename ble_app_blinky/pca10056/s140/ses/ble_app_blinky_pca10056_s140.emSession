@@ -59,12 +59,9 @@
   <Watches active="0" update="Never"/>
  </Watch4>
  <Files>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="555" useTextEdit="1" path="../../../main.c" left="0" selected="1" top="564" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="243" useTextEdit="1" path="../../../../../../external/segger_rtt/SEGGER_RTT_Syscalls_SES.c" left="0" top="220" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="9" y="597" useTextEdit="1" path="../../../main.c" left="0" selected="1" top="578" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="66" y="27" useTextEdit="1" path="flash_placement.xml" left="0" top="0" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="99" useTextEdit="1" path="../../../../../../components/libraries/util/app_error_weak.c" left="0" top="67" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="../config/sdk_config.h" left="0" top="182" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="8" y="409" useTextEdit="1" openedFrom="C:/Users/jesli/Documents/ble/nRF5_SDK_17.1.0_ddde56/examples/ble_peripheral/ble_app_blinky/main.c" path="../../../../../../components/softdevice/s140/headers/ble_gap.h" left="0" top="409" codecName="Default"/>
  </Files>
  <EMStudioWindow activeProject="ble_app_blinky_pca10056_s140" fileDialogDefaultFilter="*.c" autoConnectTarget="J-Link" buildConfiguration="Debug" sessionSettings="" debugSearchFileMap="" fileDialogInitialDirectory="" debugSearchPath="" autoConnectCapabilities="3199"/>
 </session>
