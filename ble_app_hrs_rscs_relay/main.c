@@ -175,6 +175,8 @@ static ble_uuid_t m_adv_uuids[] =
 };
 
 
+
+
 static ble_gap_scan_params_t m_scan_param =                 /**< Scan parameters requested for scanning and connection. */
 {
     .active        = 0x01,
