@@ -361,7 +361,7 @@ static void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context)
                 // Turn off the LED that indicates the connection.
                 bsp_board_led_off(CENTRAL_CONNECTED_LED);
             }
-
+            sd_ble_gap_scan_stop();
             // Start scanning.
             scan_start();
 
